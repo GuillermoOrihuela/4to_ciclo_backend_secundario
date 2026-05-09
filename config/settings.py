@@ -32,7 +32,7 @@ SECRET_KEY = 'django-insecure-4y9#&qvh78vr-s5q8c=ul(olq6*w5rbqxg^!hdg9d9w-(+t7p+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["159.89.229.245/api/users/"]
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -43,8 +43,9 @@ INSTALLED_APPS = [
     'corsheaders',
     'app_1_identidad_relaciones',
     'app_2_clinico_salud',
+    'app_3_medicacion_inventario',
     'rest_framework',
-    "corsheaders",
+    
     
 ]
 

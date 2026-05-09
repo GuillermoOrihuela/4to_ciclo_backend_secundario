@@ -19,4 +19,5 @@ from django.urls import path, include
 urlpatterns = [
     path('api/', include('app_1_identidad_relaciones.urls')),
     path('api/clinico/', include('app_2_clinico_salud.urls')),
+    path('api/medicacion/', include('app_3_medicacion_inventario.urls')),
 ]
