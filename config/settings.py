@@ -80,8 +80,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'db_sgdp2',
-        'USER': 'root',
+        'NAME': 'may04get46226d_db',
+        'USER': 'may04get46226d_usuario',
         'PASSWORD': '45092077',
         'HOST': '127.0.0.1',
         'PORT': '3306',
