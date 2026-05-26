@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.db import models
 
 
@@ -117,13 +116,8 @@ class AdministracionMedicacion(models.Model):
         on_delete=models.CASCADE,
         related_name='administraciones',
     )
-    id_personal_entrega = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='administraciones_medicacion',
-    )
+    id_personal_entrega = models.CharField(max_length=128, blank=True, null=True)
+    nombre_personal_entrega = models.CharField(max_length=200, blank=True, null=True)
     fecha_hora_programada = models.DateTimeField()
     fecha_hora_real = models.DateTimeField(blank=True, null=True)
     cantidad_administrada = models.DecimalField(max_digits=10, decimal_places=2)

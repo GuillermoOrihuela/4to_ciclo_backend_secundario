@@ -108,7 +108,6 @@ Content-Type: application/json
 
 {
   "id_paciente": 1,
-  "motivo_ingreso": "Dolor abdominal persistente",
   "diagnostico_inicial": "Gastritis aguda",
   "alergias": "Penicilina",
   "tratamiento_actual": "Observación y medicación",
@@ -127,7 +126,6 @@ Campos que **no debes enviar** (el backend los completa desde el JWT):
 {
   "id_historia": 1,
   "id_paciente": 1,
-  "motivo_ingreso": "Dolor abdominal persistente",
   "diagnostico_inicial": "Gastritis aguda",
   "alergias": "Penicilina",
   "tratamiento_actual": "Observación y medicación",
@@ -136,6 +134,10 @@ Campos que **no debes enviar** (el backend los completa desde el JWT):
   "actualizado_por": "42"
 }
 ```
+
+Campo retirado:
+
+- `motivo_ingreso` ya no se registra ni se devuelve en `HistoriaClinicaUnificada`.
 
 ### Visibilidad por rol
 

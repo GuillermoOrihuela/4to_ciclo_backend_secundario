@@ -87,12 +87,14 @@ class AdministracionMedicacionSerializerAdmin(serializers.ModelSerializer):
     class Meta:
         model = AdministracionMedicacion
         fields = '__all__'
+        read_only_fields = ['id_personal_entrega']
 
 
 class AdministracionMedicacionSerializerEnfermeroJefe(serializers.ModelSerializer):
     class Meta:
         model = AdministracionMedicacion
         fields = '__all__'
+        read_only_fields = ['id_personal_entrega']
 
 
 class AdministracionMedicacionSerializerTecnicoEnfermero(serializers.ModelSerializer):
@@ -102,12 +104,14 @@ class AdministracionMedicacionSerializerTecnicoEnfermero(serializers.ModelSerial
             'id_admin',
             'id_medicacion',
             'id_personal_entrega',
+            'nombre_personal_entrega',
             'fecha_hora_programada',
             'fecha_hora_real',
             'cantidad_administrada',
             'estado',
             'motivo_rechazo',
         ]
+        read_only_fields = ['id_personal_entrega']
 
 
 class AdministracionMedicacionSerializerNutricionista(serializers.ModelSerializer):

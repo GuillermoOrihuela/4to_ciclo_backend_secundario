@@ -38,7 +38,6 @@ class Command(BaseCommand):
         # Historia clínica
         historia = HistoriaClinicaUnificada.objects.create(
             id_paciente=paciente,
-            motivo_ingreso='Dolor abdominal agudo',
             diagnostico_inicial='Apendicitis aguda',
             alergias='Ninguna',
             tratamiento_actual='Observación y analgésicos',

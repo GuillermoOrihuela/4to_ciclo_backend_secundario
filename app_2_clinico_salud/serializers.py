@@ -8,7 +8,7 @@ class HistoriaClinicaUnificadaSerializerAdmin(serializers.ModelSerializer):
     class Meta:
         model = HistoriaClinicaUnificada
         fields = [
-            'id_historia', 'id_paciente', 'motivo_ingreso', 'diagnostico_inicial',
+            'id_historia', 'id_paciente', 'diagnostico_inicial',
             'alergias', 'tratamiento_actual', 'nutricion_asignada',
             'creado_por', 'actualizado_por', 'fecha_creacion', 'fecha_actualizacion'
         ]

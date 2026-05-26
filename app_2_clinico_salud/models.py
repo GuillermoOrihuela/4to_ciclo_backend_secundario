@@ -4,7 +4,6 @@ class HistoriaClinicaUnificada(models.Model):
     id_historia = models.AutoField(primary_key=True)
     id_paciente = models.ForeignKey('app_1_identidad_relaciones.PacienteModel', on_delete=models.CASCADE)
 
-    motivo_ingreso = models.TextField(blank=True)
     diagnostico_inicial = models.TextField(blank=True)
     alergias = models.TextField(blank=True)
     tratamiento_actual = models.TextField(blank=True)

@@ -21,6 +21,18 @@ from .serializers import (
 
 
 PUBLIC_KEY = settings.PUBLIC_KEY
+USER_ID_CLAIMS = ('user_id', 'id_usuario', 'usuario_id', 'personal_id', 'id', 'uid', 'sub')
+NAME_CLAIMS = (
+	'full_name',
+	'nombre_completo',
+	'display_name',
+	'name',
+	'username',
+	'preferred_username',
+	'email',
+)
+FIRST_NAME_CLAIMS = ('nombres', 'nombre', 'first_name', 'given_name')
+LAST_NAME_CLAIMS = ('apellidos', 'apellido', 'last_name', 'family_name')
 
 
 ROLE_SERIALIZER_MAP_RECETAS = {
@@ -63,6 +75,64 @@ def get_role_from_jwt(request):
 		raise AuthenticationFailed('El token no contiene rol')
 
 	return role
+
+
+def get_jwt_payload(request):
+	auth = request.headers.get('Authorization')
+	if not auth or not auth.startswith('Bearer '):
+		raise AuthenticationFailed('No se proporciono token Bearer')
+
+	token = auth.split(' ')[1]
+	try:
+		return jwt.decode(token, PUBLIC_KEY, algorithms=['RS256'])
+	except jwt.ExpiredSignatureError:
+		raise AuthenticationFailed('Token expirado')
+	except jwt.InvalidTokenError:
+		raise AuthenticationFailed('Token invalido')
+
+
+def get_user_id_from_jwt(request):
+	payload = get_jwt_payload(request)
+
+	for claim in USER_ID_CLAIMS:
+		value = payload.get(claim)
+		if value in (None, ''):
+			continue
+		try:
+			return int(value)
+		except (TypeError, ValueError):
+			raise AuthenticationFailed('El token contiene un identificador de usuario invalido')
+
+	raise AuthenticationFailed('El token no contiene un identificador de usuario valido')
+
+
+def get_user_name_from_jwt(request):
+	payload = get_jwt_payload(request)
+
+	for claim in NAME_CLAIMS:
+		value = payload.get(claim)
+		if isinstance(value, str) and value.strip():
+			return value.strip()
+
+	first_name = ''
+	last_name = ''
+	for claim in FIRST_NAME_CLAIMS:
+		value = payload.get(claim)
+		if isinstance(value, str) and value.strip():
+			first_name = value.strip()
+			break
+
+	for claim in LAST_NAME_CLAIMS:
+		value = payload.get(claim)
+		if isinstance(value, str) and value.strip():
+			last_name = value.strip()
+			break
+
+	full_name = f'{first_name} {last_name}'.strip()
+	if full_name:
+		return full_name
+
+	return None
 
 
 class RolePermissionRecetas(permissions.BasePermission):
@@ -150,3 +220,11 @@ class AdministracionMedicacionViewSet(viewsets.ModelViewSet):
 	def get_serializer_class(self):
 		role = get_role_from_jwt(self.request)
 		return ROLE_SERIALIZER_MAP_ADMINISTRACION.get(role, AdministracionMedicacionSerializerAdmin)
+
+	def perform_create(self, serializer):
+		user_id = get_user_id_from_jwt(self.request)
+		nombre_personal_entrega = serializer.validated_data.get('nombre_personal_entrega') or get_user_name_from_jwt(self.request)
+		serializer.save(
+			id_personal_entrega=str(user_id),
+			nombre_personal_entrega=nombre_personal_entrega,
+		)
